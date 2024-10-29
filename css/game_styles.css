@@ -1,0 +1,171 @@
+/* styles.css */
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra verticalmente */
+    min-height: 100vh; /* Asegura que el contenido ocupe al menos el alto de la ventana */
+    margin: 0;
+}
+
+.container {
+    /* Incrementar el max-width y ajustar el ancho */
+    max-width: 1000px; /* Aumentado de 900px a 1000px */
+    width: 90vw; /* Usar 90% del ancho de la ventana */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.config {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.custom-config, .difficulty-config {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    flex: 1 1 250px;
+}
+
+label {
+    display: block;
+    margin: 5px 0 2px;
+}
+
+input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.difficulty-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#start-custom {
+    background-color: #2196F3;
+    color: white;
+}
+
+#game-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1000px; /* Aumentado de 800px a 1000px */
+    margin-bottom: 10px;
+    padding: 0 10px;
+    align-items: center; /* Alinea verticalmente */
+}
+
+#flags-remaining {
+    font-size: 1.2em;
+    color: #555;
+}
+
+#game-status {
+    font-size: 1.2em;
+    color: #555;
+}
+
+#grid {
+    display: grid;
+    border: 2px solid #333;
+    gap: 2px; /* Espacio entre celdas */
+    justify-content: center; /* Centra el grid dentro del contenedor */
+    margin: 0 auto; /* Centra horizontalmente si el grid es más pequeño que el contenedor */
+    padding: 10px;
+    /* Incrementar el tamaño máximo del grid */
+    max-width: 80vw; /* Usar 80% del ancho de la ventana */
+    max-height: 80vh; /* Usar 80% del alto de la ventana */
+    overflow: auto; /* Agregar scroll si el grid excede el tamaño */
+}
+
+.cell {
+    border: 1px solid #999;
+    background-color: #ccc;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    user-select: none;
+    /* Tamaño de celda dinámico */
+    width: 100%;
+    height: 100%;
+}
+
+.cell.revealed {
+    background-color: #e0e0e0;
+    cursor: default;
+}
+
+.cell.mine {
+    background-color: #ff4d4d;
+}
+
+.cell.flagged::after {
+    content: "🚩";
+    font-size: 18px;
+}
+
+/* Responsividad mejorada */
+@media (max-width: 800px) {
+    #grid {
+        max-width: 100%;
+        max-height: 70vh;
+    }
+}
+
+@media (max-width: 600px) {
+    .cell {
+        /* Evita que las celdas se vuelvan demasiado pequeñas */
+        font-size: 14px;
+    }
+
+    .custom-config, .difficulty-config {
+        flex: 1 1 100%;
+    }
+
+    #game-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #flags-remaining, #game-status {
+        margin-bottom: 5px;
+    }
+}

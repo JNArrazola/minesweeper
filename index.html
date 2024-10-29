@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscaminas</title>
+    <link rel="stylesheet" href="css/game_styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Buscaminas</h1>
+        <div class="config">
+            <div class="custom-config">
+                <h2>Configuración Personalizada</h2>
+                <label for="rows">Filas:</label>
+                <input type="number" id="rows" min="5" value="10">
+                <label for="cols">Columnas:</label>
+                <input type="number" id="cols" min="5" value="10">
+                <label for="mines">Cantidad de Minas:</label>
+                <input type="number" id="mines" min="1" value="10">
+                <button id="start-custom">Iniciar Juego</button>
+            </div>
+            <div class="difficulty-config">
+                <h2>Niveles de Dificultad</h2>
+                <button class="difficulty-btn" data-difficulty="facil">Fácil</button>
+                <button class="difficulty-btn" data-difficulty="medio">Medio</button>
+                <button class="difficulty-btn" data-difficulty="dificil">Difícil</button>
+                <button class="difficulty-btn" data-difficulty="hardcore">Hardcore</button>
+                <button class="difficulty-btn" data-difficulty="leyenda">Leyenda</button>
+            </div>
+        </div>
+        <div id="game-info">
+            <div id="flags-remaining">Banderas Restantes: <span id="flags-count">0</span></div>
+            <div id="game-status">Selecciona una configuración para comenzar.</div>
+        </div>
+        <div id="grid"></div>
+    </div>
+
+    <script src="js/game.js"></script>
+</body>
+</html>
