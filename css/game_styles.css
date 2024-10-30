@@ -1,32 +1,35 @@
-/* styles.css */
-
 * {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
 
 body {
-    background-color: #f0f0f0;
+    background-color: black;
+    color: white;
     display: flex;
     justify-content: center;
-    align-items: center; /* Centra verticalmente */
-    min-height: 100vh; /* Asegura que el contenido ocupe al menos el alto de la ventana */
+    align-items: center;
+    min-height: 100vh;
     margin: 0;
+    overflow: hidden; 
 }
 
 .container {
-    /* Incrementar el max-width y ajustar el ancho */
-    max-width: 1000px; /* Aumentado de 900px a 1000px */
-    width: 90vw; /* Usar 90% del ancho de la ventana */
+    width: 100vw;
+    height: 100vh;
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra los elementos horizontalmente */
+    align-items: center;
     padding: 20px;
+    background: rgba(20, 20, 30, 0.9);
+    box-sizing: border-box;
 }
 
 h1 {
-    color: #333;
+    color: #b300ff;
+    text-shadow: 0 0 10px #b300ff, 0 0 20px #b300ff, 0 0 30px #b300ff;
+    font-size: 3em;
     margin-bottom: 20px;
 }
 
@@ -39,23 +42,29 @@ h1 {
 }
 
 .custom-config, .difficulty-config {
-    background-color: #fff;
+    background: rgba(50, 50, 70, 0.7);
+    color: #b300ff;
     padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(179, 0, 255, 0.5);
     margin: 10px;
     flex: 1 1 250px;
 }
 
 label {
-    display: block;
+    color: #a0f;
     margin: 5px 0 2px;
+    text-shadow: 0 0 5px #a0f;
 }
 
 input[type="number"] {
     width: 60px;
     padding: 5px;
     margin-bottom: 10px;
+    border: 1px solid #a0f;
+    background-color: #111;
+    color: #b300ff;
+    text-align: center;
 }
 
 button {
@@ -64,108 +73,119 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: 0.3s;
+    background-color: #00f;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 10px #00f, 0 0 20px #00f;
 }
 
 button:hover {
-    opacity: 0.9;
-}
-
-.difficulty-btn {
-    background-color: #4CAF50;
-    color: white;
-}
-
-#start-custom {
-    background-color: #2196F3;
-    color: white;
+    background-color: #f0f;
+    box-shadow: 0 0 15px #f0f, 0 0 30px #f0f;
 }
 
 #game-info {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
-    max-width: 1000px; /* Aumentado de 800px a 1000px */
+    max-width: none; 
     margin-bottom: 10px;
     padding: 0 10px;
-    align-items: center; /* Alinea verticalmente */
+    color: #b300ff;
+    text-shadow: 0 0 5px #b300ff;
 }
 
-#flags-remaining {
-    font-size: 1.2em;
-    color: #555;
-}
-
-#game-status {
-    font-size: 1.2em;
-    color: #555;
+#grid-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto; 
+    width: 100%; 
+    flex: 1; 
+    border: 2px solid #b300ff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #b300ff;
+    margin: 0 auto;
+    padding: 10px;
 }
 
 #grid {
     display: grid;
-    border: 2px solid #333;
-    gap: 2px; /* Espacio entre celdas */
-    justify-content: center; /* Centra el grid dentro del contenedor */
-    margin: 0 auto; /* Centra horizontalmente si el grid es más pequeño que el contenedor */
-    padding: 10px;
-    /* Incrementar el tamaño máximo del grid */
-    max-width: 80vw; /* Usar 80% del ancho de la ventana */
-    max-height: 80vh; /* Usar 80% del alto de la ventana */
-    overflow: auto; /* Agregar scroll si el grid excede el tamaño */
+    gap: 2px;
+    border: 2px solid rgba(255, 255, 255, 0.3); 
+    border-radius: 10px;
+    padding: 5px; 
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
 }
 
 .cell {
-    border: 1px solid #999;
-    background-color: #ccc;
+    background-color: rgba(30, 30, 50, 0.7);
+    color: #0ff;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     user-select: none;
-    /* Tamaño de celda dinámico */
-    width: 100%;
-    height: 100%;
+    transition: background-color 0.2s;
 }
 
 .cell.revealed {
-    background-color: #e0e0e0;
+    background-color: rgba(60, 60, 80, 0.9);
+    color: #f0f;
     cursor: default;
+    text-shadow: 0 0 8px #f0f;
 }
 
 .cell.mine {
-    background-color: #ff4d4d;
+    background-color: rgba(255, 0, 0, 0.7);
+    box-shadow: 0 0 10px red, 0 0 20px red;
 }
 
 .cell.flagged::after {
     content: "🚩";
     font-size: 18px;
+    color: #ff0;
+    text-shadow: 0 0 5px #ff0, 0 0 10px #ff0;
 }
 
-/* Responsividad mejorada */
-@media (max-width: 800px) {
-    #grid {
-        max-width: 100%;
-        max-height: 70vh;
-    }
+.exit-btn {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #ff0000;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
 }
 
-@media (max-width: 600px) {
-    .cell {
-        /* Evita que las celdas se vuelvan demasiado pequeñas */
-        font-size: 14px;
-    }
+.exit-btn:hover {
+    background-color: #ff4d4d;
+    box-shadow: 0 0 15px #ff4d4d, 0 0 30px #ff4d4d;
+}
 
-    .custom-config, .difficulty-config {
-        flex: 1 1 100%;
-    }
+.fullscreen-btn {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #00cc00;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 10px #00cc00, 0 0 20px #00cc00;
+}
 
-    #game-info {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #flags-remaining, #game-status {
-        margin-bottom: 5px;
-    }
+.fullscreen-btn:hover {
+    background-color: #33ff33;
+    box-shadow: 0 0 15px #33ff33, 0 0 30px #33ff33;
 }

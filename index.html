@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <title>Buscaminas</title>
     <link rel="stylesheet" href="css/game_styles.css">
+    <link rel="stylesheet" href="css/stars.css">
 </head>
 <body>
-    <div class="container">
+    <canvas id="stars"></canvas>
+
+    <div class="container" id="menu">
         <h1>Buscaminas</h1>
         <div class="config">
             <div class="custom-config">
@@ -28,13 +31,22 @@
                 <button class="difficulty-btn" data-difficulty="leyenda">Leyenda</button>
             </div>
         </div>
+    </div>
+
+    <div class="container" id="game-view" style="display: none; flex-direction: column;">
         <div id="game-info">
             <div id="flags-remaining">Banderas Restantes: <span id="flags-count">0</span></div>
             <div id="game-status">Selecciona una configuración para comenzar.</div>
+            <button id="fullscreen-btn" class="fullscreen-btn">Pantalla Completa</button>
+            <button id="exit-game" class="exit-btn">Salir del Juego</button>
         </div>
-        <div id="grid"></div>
+        
+        <div id="grid-container">
+            <div id="grid"></div>
+        </div>        
     </div>
 
     <script src="js/game.js"></script>
+    <script src="js/stars.js"></script>
 </body>
 </html>

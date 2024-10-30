@@ -1,10 +1,12 @@
-/* script.js */
-
+const menu = document.getElementById('menu');
+const gameView = document.getElementById('game-view');
 const gridElement = document.getElementById('grid');
 const gameStatus = document.getElementById('game-status');
 const flagsCountElement = document.getElementById('flags-count');
 const startCustomBtn = document.getElementById('start-custom');
 const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+const exitGameBtn = document.getElementById('exit-game');
+const fullscreenBtn = document.getElementById('fullscreen-btn');
 
 let rows, cols, mines;
 let grid = [];
@@ -21,6 +23,16 @@ const difficulties = {
     hardcore: { rows: 24, cols: 30, mines: 180 },
     leyenda: { rows: 30, cols: 30, mines: 300 }
 };
+
+function showGameView() {
+    menu.style.display = 'none';
+    gameView.style.display = 'flex';
+}
+
+function showMenu() {
+    gameView.style.display = 'none';
+    menu.style.display = 'flex';
+}
 
 startCustomBtn.addEventListener('click', () => {
     const customRows = parseInt(document.getElementById('rows').value);
@@ -41,6 +53,7 @@ startCustomBtn.addEventListener('click', () => {
     cols = customCols;
     mines = customMines;
     initGame();
+    showGameView();
 });
 
 difficultyBtns.forEach(btn => {
@@ -52,8 +65,32 @@ difficultyBtns.forEach(btn => {
             cols = config.cols;
             mines = config.mines;
             initGame();
+            showGameView();
         }
     });
+});
+
+exitGameBtn.addEventListener('click', () => {
+    resetGame();
+    showMenu();
+});
+
+fullscreenBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+            alert(`Error al intentar entrar en pantalla completa: ${err.message}`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+});
+
+document.addEventListener('fullscreenchange', () => {
+    if (document.fullscreenElement) {
+        fullscreenBtn.textContent = 'Salir de Pantalla Completa';
+    } else {
+        fullscreenBtn.textContent = 'Pantalla Completa';
+    }
 });
 
 function initGame() {
@@ -68,15 +105,17 @@ function initGame() {
 
     flagsCountElement.textContent = mines - flags;
 
-    const containerWidth = window.innerWidth * 0.8; 
-    const containerHeight = window.innerHeight * 0.8; 
+    const gridContainer = document.getElementById('grid-container');
+    const containerWidth = gridContainer.clientWidth;
+    const containerHeight = gridContainer.clientHeight;
 
-    const maxGridWidth = containerWidth; 
-    const maxGridHeight = containerHeight; 
+    const cellWidth = Math.floor((containerWidth - (cols - 1) * 2) / cols); 
+    const cellHeight = Math.floor((containerHeight - (rows - 1) * 2) / rows); 
+    let cellSize = Math.min(cellWidth, cellHeight);
 
-    const cellWidth = Math.floor((maxGridWidth - (cols - 1) * 2) / cols); 
-    const cellHeight = Math.floor((maxGridHeight - (rows - 1) * 2) / rows); 
-    const cellSize = Math.min(cellWidth, cellHeight, 40); 
+    const minCellSize = 20;
+    const maxCellSize = 40;
+    cellSize = Math.max(minCellSize, Math.min(cellSize, maxCellSize));
 
     gridElement.style.gridTemplateRows = `repeat(${rows}, ${cellSize}px)`;
     gridElement.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
@@ -98,6 +137,8 @@ function initGame() {
             cellElement.classList.add('cell');
             cellElement.setAttribute('data-row', r);
             cellElement.setAttribute('data-col', c);
+            cellElement.style.width = `${cellSize}px`;
+            cellElement.style.height = `${cellSize}px`;
             cellElement.style.fontSize = `${Math.floor(cellSize / 2)}px`; 
             cellElement.addEventListener('click', onCellClick);
             cellElement.addEventListener('contextmenu', onCellRightClick);
@@ -105,6 +146,22 @@ function initGame() {
         }
         grid.push(row);
     }
+
+    gridElement.style.width = `${cols * (cellSize + 2)}px`; 
+    gridElement.style.height = `${rows * (cellSize + 2)}px`; 
+}
+
+function resetGame() {
+    grid = [];
+    mineLocations = [];
+    firstClick = true;
+    flags = 0;
+    cellsRevealed = 0;
+    totalCells = 0;
+    gridElement.innerHTML = '';
+    gameStatus.textContent = 'Selecciona una configuración para comenzar.';
+    flagsCountElement.textContent = '0';
+    fullscreenBtn.textContent = 'Pantalla Completa';
 }
 
 function onCellClick(e) {
@@ -266,4 +323,37 @@ function getNumberColor(number) {
         8: 'gray'
     };
     return colors[number] || 'black';
+}
+
+window.addEventListener('resize', () => {
+    if (gameView.style.display === 'flex') {
+        adjustGrid();
+    }
+});
+
+function adjustGrid() {
+    const gridContainer = document.getElementById('grid-container');
+    const containerWidth = gridContainer.clientWidth;
+    const containerHeight = gridContainer.clientHeight;
+
+    const cellWidth = Math.floor((containerWidth - (cols - 1) * 2) / cols); 
+    const cellHeight = Math.floor((containerHeight - (rows - 1) * 2) / rows); 
+    let cellSize = Math.min(cellWidth, cellHeight);
+
+    const minCellSize = 20;
+    const maxCellSize = 40;
+    cellSize = Math.max(minCellSize, Math.min(cellSize, maxCellSize));
+
+    gridElement.style.gridTemplateRows = `repeat(${rows}, ${cellSize}px)`;
+    gridElement.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
+
+    const cells = gridElement.querySelectorAll('.cell');
+    cells.forEach(cell => {
+        cell.style.width = `${cellSize}px`;
+        cell.style.height = `${cellSize}px`;
+        cell.style.fontSize = `${Math.floor(cellSize / 2)}px`; 
+    });
+
+    gridElement.style.width = `${cols * (cellSize + 2)}px`; 
+    gridElement.style.height = `${rows * (cellSize + 2)}px`; 
 }
