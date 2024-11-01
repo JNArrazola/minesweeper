@@ -105,20 +105,8 @@ function initGame() {
 
     flagsCountElement.textContent = mines - flags;
 
-    const gridContainer = document.getElementById('grid-container');
-    const containerWidth = gridContainer.clientWidth;
-    const containerHeight = gridContainer.clientHeight;
-
-    const cellWidth = Math.floor((containerWidth - (cols - 1) * 2) / cols); 
-    const cellHeight = Math.floor((containerHeight - (rows - 1) * 2) / rows); 
-    let cellSize = Math.min(cellWidth, cellHeight);
-
-    const minCellSize = 20;
-    const maxCellSize = 40;
-    cellSize = Math.max(minCellSize, Math.min(cellSize, maxCellSize));
-
-    gridElement.style.gridTemplateRows = `repeat(${rows}, ${cellSize}px)`;
-    gridElement.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
+    gridElement.style.setProperty('--cols', cols);
+    gridElement.style.setProperty('--rows', rows);
 
     for (let r = 0; r < rows; r++) {
         const row = [];
@@ -137,18 +125,12 @@ function initGame() {
             cellElement.classList.add('cell');
             cellElement.setAttribute('data-row', r);
             cellElement.setAttribute('data-col', c);
-            cellElement.style.width = `${cellSize}px`;
-            cellElement.style.height = `${cellSize}px`;
-            cellElement.style.fontSize = `${Math.floor(cellSize / 2)}px`; 
             cellElement.addEventListener('click', onCellClick);
             cellElement.addEventListener('contextmenu', onCellRightClick);
             gridElement.appendChild(cellElement);
         }
         grid.push(row);
     }
-
-    gridElement.style.width = `${cols * (cellSize + 2)}px`; 
-    gridElement.style.height = `${rows * (cellSize + 2)}px`; 
 }
 
 function resetGame() {
@@ -323,37 +305,4 @@ function getNumberColor(number) {
         8: 'gray'
     };
     return colors[number] || 'black';
-}
-
-window.addEventListener('resize', () => {
-    if (gameView.style.display === 'flex') {
-        adjustGrid();
-    }
-});
-
-function adjustGrid() {
-    const gridContainer = document.getElementById('grid-container');
-    const containerWidth = gridContainer.clientWidth;
-    const containerHeight = gridContainer.clientHeight;
-
-    const cellWidth = Math.floor((containerWidth - (cols - 1) * 2) / cols); 
-    const cellHeight = Math.floor((containerHeight - (rows - 1) * 2) / rows); 
-    let cellSize = Math.min(cellWidth, cellHeight);
-
-    const minCellSize = 20;
-    const maxCellSize = 40;
-    cellSize = Math.max(minCellSize, Math.min(cellSize, maxCellSize));
-
-    gridElement.style.gridTemplateRows = `repeat(${rows}, ${cellSize}px)`;
-    gridElement.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
-
-    const cells = gridElement.querySelectorAll('.cell');
-    cells.forEach(cell => {
-        cell.style.width = `${cellSize}px`;
-        cell.style.height = `${cellSize}px`;
-        cell.style.fontSize = `${Math.floor(cellSize / 2)}px`; 
-    });
-
-    gridElement.style.width = `${cols * (cellSize + 2)}px`; 
-    gridElement.style.height = `${rows * (cellSize + 2)}px`; 
 }
